@@ -90,14 +90,14 @@
     <h1>Find a Nearby Dentist</h1>
 
     <!-- Google Sign-In Button -->
-    <button class="google-btn" onclick="signInWithGoogle()">Sign in with Google</button>
+    <button class="google-btn" id="googleSignInBtn">Sign in with Google</button>
 
     <div class="clinic-container" id="clinicList">
         <!-- Clinics will be loaded here dynamically -->
     </div>
 
     <script>
-        // 🔹 Your Firebase Config (Replace with your actual credentials)
+        // 🔹 Your Firebase Config (Replace with actual credentials)
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
             authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
@@ -110,17 +110,23 @@
 
         // 🔹 Initialize Firebase
         firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
         const db = firebase.database();
 
-        // 🔹 Google Sign-In
+        document.getElementById("googleSignInBtn").addEventListener("click", function() {
+            signInWithGoogle();
+        });
+
+        // 🔹 Google Sign-In Function
         function signInWithGoogle() {
             var provider = new firebase.auth.GoogleAuthProvider();
-            firebase.auth().signInWithPopup(provider).then((result) => {
+
+            auth.signInWithPopup(provider).then((result) => {
                 alert("Welcome " + result.user.displayName);
                 loadClinics();  // Load clinics after login
             }).catch((error) => {
                 console.error("Error signing in: ", error);
-                alert("Sign-in failed!");
+                alert("Sign-in failed: " + error.message);
             });
         }
 
@@ -129,7 +135,7 @@
             const clinicList = document.getElementById("clinicList");
             clinicList.innerHTML = ""; // Clear existing data
 
-            db.ref("clinics").once("value", (snapshot) => {
+            db.ref("clinics").once("value").then((snapshot) => {
                 snapshot.forEach((childSnapshot) => {
                     const clinic = childSnapshot.val();
                     const clinicCard = `
@@ -143,10 +149,12 @@
                     `;
                     clinicList.innerHTML += clinicCard;
                 });
+            }).catch((error) => {
+                console.error("Error loading clinics: ", error);
             });
         }
 
-        // 🔹 Book Appointment
+        // 🔹 Book Appointment Function
         function bookAppointment(clinic, doctor) {
             alert(`Appointment booked at ${clinic} with ${doctor}`);
         }
