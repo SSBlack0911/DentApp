@@ -5,45 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DentApp - Find a Dentist</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        .clinic { border: 1px solid #ddd; padding: 15px; margin: 10px; border-radius: 5px; }
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        .clinic { border: 1px solid #ddd; padding: 15px; margin: 10px; border-radius: 5px; display: inline-block; }
         .clinic img { width: 100px; height: 100px; border-radius: 50%; }
-        .btn { background: blue; color: white; padding: 10px; border: none; cursor: pointer; }
+        .btn { background: blue; color: white; padding: 10px; border: none; cursor: pointer; border-radius: 5px; }
+        input { padding: 5px; margin: 5px; }
     </style>
 </head>
 <body>
+
     <h1>Find a Nearby Dentist</h1>
+    
     <div class="clinic">
         <img src="https://via.placeholder.com/100" alt="Clinic">
-        <h3>Smile Dental Clinic</h3>
+        <h3>Srivastava Dental Clinic</h3>
         <p>Rating: ⭐⭐⭐⭐☆ (4.5)</p>
-        <p>Dr. John Doe | 10 Years Experience</p>
-        <form id="appointmentForm">
-            <h2>Book an Appointment</h2>
-            <label for="name">Your Name:</label>
-            <input type="text" id="name" required><br><br>
-        
-            <label for="date">Select Date:</label>
-            <input type="date" id="date" required><br><br>
-        
-            <label for="time">Select Time:</label>
-            <input type="time" id="time" required><br><br>
-        
-            <button type="submit" class="btn">Confirm Appointment</button>
-        </form>
-        
-        <p id="confirmationMessage"></p>
-        
-        <script>
-            document.getElementById("appointmentForm").addEventListener("submit", function(event) {
-                event.preventDefault(); // Stop page from reloading
-                let name = document.getElementById("name").value;
-                let date = document.getElementById("date").value;
-                let time = document.getElementById("time").value;
-                document.getElementById("confirmationMessage").innerHTML = 
-                    "Appointment confirmed for " + name + " on " + date + " at " + time;
-            });
-        </script>
+        <p>Dr. Shubham Srivastava | 1 Year Experience</p>
     </div>
+
+    <h2>Book an Appointment</h2>
+    <form id="appointmentForm">
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" required><br><br>
+
+        <label for="date">Select Date:</label>
+        <input type="date" id="date" required><br><br>
+
+        <label for="time">Select Time:</label>
+        <input type="time" id="time" required><br><br>
+
+        <button type="submit" class="btn">Confirm Appointment</button>
+    </form>
+
+    <p id="confirmationMessage"></p>
+
+    <script>
+        document.getElementById("appointmentForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Stop page from reloading
+            let name = document.getElementById("name").value;
+            let date = document.getElementById("date").value;
+            let time = document.getElementById("time").value;
+            document.getElementById("confirmationMessage").innerHTML = 
+                "Appointment confirmed for " + name + " on " + date + " at " + time + " at Srivastava Dental Clinic.";
+        });
+    </script>
+
 </body>
 </html>
