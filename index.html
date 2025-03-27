@@ -13,25 +13,37 @@
             background: #f4f4f4; 
         }
 
+        /* Clinic Container */
+        .clinic-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
         /* Clinic Card */
         .clinic {
             background: #fff;
             border-radius: 10px;
             padding: 20px;
-            width: 90%;
-            max-width: 400px;
-            margin: auto;
+            width: 300px;
+            text-align: center;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+        }
+        .clinic:hover {
+            transform: translateY(-5px);
         }
 
         .clinic img {
-            width: 80px; 
-            height: 80px; 
+            width: 100px; 
+            height: 100px; 
             border-radius: 50%;
             margin-bottom: 10px;
         }
 
-        h1 { color: #007BFF; font-size: 24px; }
+        h1 { color: #007BFF; font-size: 28px; }
 
         .rating { font-size: 18px; color: #ff9800; }
 
@@ -48,37 +60,9 @@
         }
         .btn:hover { background: #0056b3; }
 
-        /* Form */
-        form {
-            background: #fff;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            width: 90%;
-            max-width: 400px;
-            margin: auto;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-
-        #confirmationMessage {
-            font-size: 18px;
-            margin-top: 10px;
-            color: green;
-        }
-
         /* Responsive Design */
         @media screen and (max-width: 600px) {
-            body { padding: 10px; }
-            h1 { font-size: 20px; }
-            .clinic, form { width: 95%; }
+            .clinic-container { flex-direction: column; align-items: center; }
         }
     </style>
 </head>
@@ -86,50 +70,50 @@
 
     <h1>Find a Nearby Dentist</h1>
 
-    <div id="clinicList">
+    <div class="clinic-container" id="clinicList">
         <!-- Clinics will be loaded here dynamically -->
     </div>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
-
     <script>
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "dentapp-a1984.firebaseapp.com",
-            databaseURL: "https://dentapp-a1984-default-rtdb.firebaseio.com/",
-            projectId: "dentapp-a1984",
-            storageBucket: "dentapp-a1984.appspot.com",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+        // Sample clinic data (static for now)
+        const clinics = [
+            {
+                name: "Srivastava Dental Clinic",
+                rating: 4.5,
+                doctor: "Dr. Shubham Srivastava",
+                experience: "1 Year Experience",
+                image: "https://via.placeholder.com/100"
+            },
+            {
+                name: "Bright Smile Dental Care",
+                rating: 4.8,
+                doctor: "Dr. Aisha Khan",
+                experience: "5 Years Experience",
+                image: "https://via.placeholder.com/100"
+            },
+            {
+                name: "Pearl Dental Studio",
+                rating: 4.2,
+                doctor: "Dr. Rajesh Mehta",
+                experience: "8 Years Experience",
+                image: "https://via.placeholder.com/100"
+            }
+        ];
 
         function loadClinics() {
             const clinicList = document.getElementById("clinicList");
-
-            // Fetch clinics from Firebase
-            database.ref("clinics").once("value", function(snapshot) {
-                snapshot.forEach(function(childSnapshot) {
-                    const clinic = childSnapshot.val();
-
-                    const clinicCard = `
-                        <div class="clinic">
-                            <img src="${clinic.image}" alt="Clinic">
-                            <h2>${clinic.name}</h2>
-                            <p class="rating">⭐⭐⭐⭐⭐ (${clinic.rating})</p>
-                            <p>${clinic.doctor} | ${clinic.experience}</p>
-                            <button class="btn" onclick="bookAppointment('${clinic.name}', '${clinic.doctor}')">Book Appointment</button>
-                        </div>
-                    `;
-
-                    clinicList.innerHTML += clinicCard;
-                });
+            clinicList.innerHTML = ""; // Clear existing data
+            clinics.forEach(clinic => {
+                const clinicCard = `
+                    <div class="clinic">
+                        <img src="${clinic.image}" alt="Clinic">
+                        <h2>${clinic.name}</h2>
+                        <p class="rating">⭐⭐⭐⭐⭐ (${clinic.rating})</p>
+                        <p>${clinic.doctor} | ${clinic.experience}</p>
+                        <button class="btn" onclick="bookAppointment('${clinic.name}', '${clinic.doctor}')">Book Appointment</button>
+                    </div>
+                `;
+                clinicList.innerHTML += clinicCard;
             });
         }
 
