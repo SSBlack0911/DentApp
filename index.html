@@ -4,11 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DentApp - Find a Dentist</title>
-    
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js"></script>
 
     <style>
         /* General Styles */
@@ -89,75 +84,70 @@
 
     <h1>Find a Nearby Dentist</h1>
 
-    <!-- Google Sign-In Button -->
-    <button class="google-btn" id="googleSignInBtn">Sign in with Google</button>
+    <!-- Fake Google Sign-In Button -->
+    <button class="google-btn" onclick="fakeSignIn()">Sign in with Google</button>
 
     <div class="clinic-container" id="clinicList">
         <!-- Clinics will be loaded here dynamically -->
     </div>
 
     <script>
-        // 🔹 Your Firebase Config (Replace with actual credentials)
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
-
-        // 🔹 Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.database();
-
-        document.getElementById("googleSignInBtn").addEventListener("click", function() {
-            signInWithGoogle();
-        });
-
-        // 🔹 Google Sign-In Function
-        function signInWithGoogle() {
-            var provider = new firebase.auth.GoogleAuthProvider();
-
-            auth.signInWithPopup(provider).then((result) => {
-                alert("Welcome " + result.user.displayName);
-                loadClinics();  // Load clinics after login
-            }).catch((error) => {
-                console.error("Error signing in: ", error);
-                alert("Sign-in failed: " + error.message);
-            });
+        // Fake Google Sign-In
+        function fakeSignIn() {
+            alert("Google Sign-In is not enabled yet!");
         }
 
-        // 🔹 Load Clinics from Firebase Database
+        // Sample Clinic Data
+        const clinics = [
+            {
+                name: "Srivastava Dental Clinic",
+                doctor: "Dr. Shubham Srivastava",
+                experience: "1 year",
+                rating: "4.8",
+                image: "https://via.placeholder.com/100"
+            },
+            {
+                name: "Smile Care Clinic",
+                doctor: "Dr. Ayesha Khan",
+                experience: "5 years",
+                rating: "4.5",
+                image: "https://via.placeholder.com/100"
+            },
+            {
+                name: "Bright Smile Dental",
+                doctor: "Dr. Rohan Mehta",
+                experience: "3 years",
+                rating: "4.7",
+                image: "https://via.placeholder.com/100"
+            }
+        ];
+
+        // Load Clinics on Page Load
         function loadClinics() {
             const clinicList = document.getElementById("clinicList");
             clinicList.innerHTML = ""; // Clear existing data
 
-            db.ref("clinics").once("value").then((snapshot) => {
-                snapshot.forEach((childSnapshot) => {
-                    const clinic = childSnapshot.val();
-                    const clinicCard = `
-                        <div class="clinic">
-                            <img src="${clinic.image}" alt="Clinic">
-                            <h2>${clinic.name}</h2>
-                            <p class="rating">⭐⭐⭐⭐⭐ (${clinic.rating})</p>
-                            <p>${clinic.doctor} | ${clinic.experience}</p>
-                            <button class="btn" onclick="bookAppointment('${clinic.name}', '${clinic.doctor}')">Book Appointment</button>
-                        </div>
-                    `;
-                    clinicList.innerHTML += clinicCard;
-                });
-            }).catch((error) => {
-                console.error("Error loading clinics: ", error);
+            clinics.forEach(clinic => {
+                const clinicCard = `
+                    <div class="clinic">
+                        <img src="${clinic.image}" alt="Clinic">
+                        <h2>${clinic.name}</h2>
+                        <p class="rating">⭐⭐⭐⭐⭐ (${clinic.rating})</p>
+                        <p>${clinic.doctor} | ${clinic.experience}</p>
+                        <button class="btn" onclick="bookAppointment('${clinic.name}', '${clinic.doctor}')">Book Appointment</button>
+                    </div>
+                `;
+                clinicList.innerHTML += clinicCard;
             });
         }
 
-        // 🔹 Book Appointment Function
+        // Book Appointment (Simulation)
         function bookAppointment(clinic, doctor) {
             alert(`Appointment booked at ${clinic} with ${doctor}`);
         }
+
+        // Load Clinics when the page loads
+        window.onload = loadClinics;
     </script>
 
 </body>
