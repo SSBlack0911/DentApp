@@ -83,42 +83,64 @@
     </style>
 </head>
 <body>
+    <body>
 
-    <h1>Find a Nearby Dentist</h1>
+        <h1>Find a Nearby Dentist</h1>
     
-    <div class="clinic">
-        <img src="https://via.placeholder.com/80" alt="Clinic">
-        <h2>Srivastava Dental Clinic</h2>
-        <p class="rating">⭐⭐⭐⭐☆ (4.5)</p>
-        <p>Dr. Shubham Srivastava | 1 Year Experience</p>
-    </div>
-
-    <form id="appointmentForm">
-        <h2>Book an Appointment</h2>
-        <label for="name">Your Name:</label>
-        <input type="text" id="name" required><br>
-
-        <label for="date">Select Date:</label>
-        <input type="date" id="date" required><br>
-
-        <label for="time">Select Time:</label>
-        <input type="time" id="time" required><br>
-
-        <button type="submit" class="btn">Confirm Appointment</button>
-    </form>
-
-    <p id="confirmationMessage"></p>
-
-    <script>
-        document.getElementById("appointmentForm").addEventListener("submit", function(event) {
-            event.preventDefault(); // Stop page from reloading
-            let name = document.getElementById("name").value;
-            let date = document.getElementById("date").value;
-            let time = document.getElementById("time").value;
-            document.getElementById("confirmationMessage").innerHTML = 
-                "✅ Appointment confirmed for " + name + " on " + date + " at " + time + " at Srivastava Dental Clinic.";
-        });
-    </script>
-
+        <div id="clinicList">
+            <!-- Clinics will be loaded here dynamically -->
+        </div>
+    
+        <script>
+            // Sample clinic data (this will later come from a database)
+            const clinics = [
+                {
+                    name: "Srivastava Dental Clinic",
+                    rating: 4.5,
+                    doctor: "Dr. Shubham Srivastava",
+                    experience: "1 Year Experience",
+                    image: "https://via.placeholder.com/80"
+                },
+                {
+                    name: "Bright Smile Dental Care",
+                    rating: 4.8,
+                    doctor: "Dr. Aisha Khan",
+                    experience: "5 Years Experience",
+                    image: "https://via.placeholder.com/80"
+                },
+                {
+                    name: "Pearl Dental Studio",
+                    rating: 4.2,
+                    doctor: "Dr. Rajesh Mehta",
+                    experience: "8 Years Experience",
+                    image: "https://via.placeholder.com/80"
+                }
+            ];
+    
+            function loadClinics() {
+                const clinicList = document.getElementById("clinicList");
+                clinics.forEach(clinic => {
+                    const clinicCard = `
+                        <div class="clinic">
+                            <img src="${clinic.image}" alt="Clinic">
+                            <h2>${clinic.name}</h2>
+                            <p class="rating">⭐⭐⭐⭐⭐ (${clinic.rating})</p>
+                            <p>${clinic.doctor} | ${clinic.experience}</p>
+                            <button class="btn" onclick="bookAppointment('${clinic.name}', '${clinic.doctor}')">Book Appointment</button>
+                        </div>
+                    `;
+                    clinicList.innerHTML += clinicCard;
+                });
+            }
+    
+            function bookAppointment(clinic, doctor) {
+                alert(`Appointment booked at ${clinic} with ${doctor}`);
+            }
+    
+            // Load clinics when the page opens
+            loadClinics();
+        </script>
+    
+    </body>
 </body>
 </html>
