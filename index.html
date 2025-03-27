@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DentApp - Find a Dentist</title>
-    <style>
-        /* General Styles */
+/* General Styles */
         body { 
             font-family: 'Poppins', sans-serif; 
             text-align: center; 
@@ -31,7 +24,7 @@
             margin-bottom: 10px;
         }
 
-        h1 { color: #007BFF; }
+        h1 { color: #007BFF; font-size: 24px; }
 
         .rating { font-size: 18px; color: #ff9800; }
 
@@ -62,8 +55,8 @@
 
         input {
             width: 100%;
-            padding: 8px;
-            margin: 8px 0;
+            padding: 10px;
+            margin: 10px 0;
             border: 1px solid #ddd;
             border-radius: 5px;
         }
@@ -74,45 +67,9 @@
             color: green;
         }
 
-    </style>
-</head>
-<body>
-
-    <h1>Find a Nearby Dentist</h1>
-    
-    <div class="clinic">
-        <img src="https://via.placeholder.com/80" alt="Clinic">
-        <h2>Srivastava Dental Clinic</h2>
-        <p class="rating">⭐⭐⭐⭐☆ (4.5)</p>
-        <p>Dr. Shubham Srivastava | 1 Year Experience</p>
-    </div>
-
-    <form id="appointmentForm">
-        <h2>Book an Appointment</h2>
-        <label for="name">Your Name:</label>
-        <input type="text" id="name" required><br>
-
-        <label for="date">Select Date:</label>
-        <input type="date" id="date" required><br>
-
-        <label for="time">Select Time:</label>
-        <input type="time" id="time" required><br>
-
-        <button type="submit" class="btn">Confirm Appointment</button>
-    </form>
-
-    <p id="confirmationMessage"></p>
-
-    <script>
-        document.getElementById("appointmentForm").addEventListener("submit", function(event) {
-            event.preventDefault(); // Stop page from reloading
-            let name = document.getElementById("name").value;
-            let date = document.getElementById("date").value;
-            let time = document.getElementById("time").value;
-            document.getElementById("confirmationMessage").innerHTML = 
-                "✅ Appointment confirmed for " + name + " on " + date + " at " + time + " at Srivastava Dental Clinic.";
-        });
-    </script>
-
-</body>
-</html>
+        /* Responsive Design */
+        @media screen and (max-width: 600px) {
+            body { padding: 10px; }
+            h1 { font-size: 20px; }
+            .clinic, form { width: 95%; }
+        }
