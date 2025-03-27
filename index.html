@@ -83,43 +83,41 @@
     </style>
 </head>
 <body>
-    <body>
 
-        <h1>Find a Nearby Dentist</h1>
-    
-        <div id="clinicList">
-            <!-- Clinics will be loaded here dynamically -->
-        </div>
-    
-        <script>
-            // Sample clinic data (this will later come from a database)
-            const clinics = [
-                {
-                    name: "Srivastava Dental Clinic",
-                    rating: 4.5,
-                    doctor: "Dr. Shubham Srivastava",
-                    experience: "1 Year Experience",
-                    image: "https://via.placeholder.com/80"
-                },
-                {
-                    name: "Bright Smile Dental Care",
-                    rating: 4.8,
-                    doctor: "Dr. Aisha Khan",
-                    experience: "5 Years Experience",
-                    image: "https://via.placeholder.com/80"
-                },
-                {
-                    name: "Pearl Dental Studio",
-                    rating: 4.2,
-                    doctor: "Dr. Rajesh Mehta",
-                    experience: "8 Years Experience",
-                    image: "https://via.placeholder.com/80"
-                }
-            ];
-    
-            function loadClinics() {
-                const clinicList = document.getElementById("clinicList");
-                clinics.forEach(clinic => {
+    <h1>Find a Nearby Dentist</h1>
+
+    <div id="clinicList">
+        <!-- Clinics will be loaded here dynamically -->
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "dentapp-a1984.firebaseapp.com",
+            databaseURL: "https://dentapp-a1984-default-rtdb.firebaseio.com/",
+            projectId: "dentapp-a1984",
+            storageBucket: "dentapp-a1984.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        function loadClinics() {
+            const clinicList = document.getElementById("clinicList");
+
+            // Fetch clinics from Firebase
+            database.ref("clinics").once("value", function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                    const clinic = childSnapshot.val();
+
                     const clinicCard = `
                         <div class="clinic">
                             <img src="${clinic.image}" alt="Clinic">
@@ -129,18 +127,19 @@
                             <button class="btn" onclick="bookAppointment('${clinic.name}', '${clinic.doctor}')">Book Appointment</button>
                         </div>
                     `;
+
                     clinicList.innerHTML += clinicCard;
                 });
-            }
-    
-            function bookAppointment(clinic, doctor) {
-                alert(`Appointment booked at ${clinic} with ${doctor}`);
-            }
-    
-            // Load clinics when the page opens
-            loadClinics();
-        </script>
-    
-    </body>
+            });
+        }
+
+        function bookAppointment(clinic, doctor) {
+            alert(`Appointment booked at ${clinic} with ${doctor}`);
+        }
+
+        // Load clinics when the page opens
+        loadClinics();
+    </script>
+
 </body>
 </html>
